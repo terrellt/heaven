@@ -37,13 +37,6 @@ namespace :deploy do
       run "ln -nfs #{deploy_to}/shared/config/#{config_file} #{release_path}/config/#{config_file}"
     end
   end
-end
-namespace :rails do
-  desc "Opens up a rails console"
-  task :console, :roles => :app do
-    hostname = find_servers_for_task(current_task).first
-    exec "ssh -l #{user} #{hostname} -t 'source ~/.bash_profile && cd #{deploy_to}/current && export RBENV_VERSION=#{config[rails_env.to_s]['default_environment']['RBENV_VERSION']} && RAILS_ENV=#{rails_env} bundle exec rails c'"
-  end
 
   desc "Uploads local config files"
   task :upload_config, :roles => :app do
@@ -51,5 +44,12 @@ namespace :rails do
       top.run "mkdir -p #{deploy_to}/shared/config"
       top.upload "config/#{config_file}", "#{deploy_to}/shared/config/#{config_file}", :via => :scp
     end
+  end
+end
+namespace :rails do
+  desc "Opens up a rails console"
+  task :console, :roles => :app do
+    hostname = find_servers_for_task(current_task).first
+    exec "ssh -l #{user} #{hostname} -t 'source ~/.bash_profile && cd #{deploy_to}/current && export RBENV_VERSION=#{config[rails_env.to_s]['default_environment']['RBENV_VERSION']} && RAILS_ENV=#{rails_env} bundle exec rails c'"
   end
 end
