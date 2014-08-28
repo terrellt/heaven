@@ -37,6 +37,5 @@ group :development do
 end
 
 group :staging, :production do
-  gem "pg"
-  gem "rails_12factor"
+  gem 'mysql2'
 end

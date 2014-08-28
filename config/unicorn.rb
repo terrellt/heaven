@@ -1,23 +1,42 @@
-# config/unicorn.rb
-worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
-timeout 15
+app_root = "/var/www/deploy.library.oregonstate.edu"
+current = "#{app_root}/current"
+shared = "#{app_root}/shared"
+worker_processes 2
+
+working_directory current
+listen "#{shared}/sockets/unicorn.sock"
+
+timeout 30
+
+pid "#{shared}/pids/unicorn.pid"
+old_pid = "#{shared}/pids/unicorn.pid.oldbin"
+
+stderr_path "#{shared}/log/unicorn-err.log"
+stdout_path "#{shared}/log/unicorn-out.log"
+
 preload_app true
+GC.respond_to?(:copy_on_write_friendly=) and
+    GC.copy_on_write_friendly = true
 
+check_client_connection false
+before_exec do |server|
+  ENV['BUNDLE_GEMFILE'] = "#{current}/Gemfile"
+end
 before_fork do |server, worker|
-  Signal.trap 'TERM' do
-    puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
-    Process.kill 'QUIT', Process.pid
-  end
-
   defined?(ActiveRecord::Base) and
-    ActiveRecord::Base.connection.disconnect!
+      ActiveRecord::Base.connection.disconnect!
+
+  old_pid = "#{server.config[:pid]}.oldbin"
+  if old_pid != server.pid
+    begin
+      sig = (worker.nr + 1) >= server.worker_processes ? :QUIT : :TTOU
+      Process.kill(sig, File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+    end
+  end
 end
 
 after_fork do |server, worker|
-  Signal.trap 'TERM' do
-    puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
-  end
-
   defined?(ActiveRecord::Base) and
-    ActiveRecord::Base.establish_connection
+      ActiveRecord::Base.establish_connection
 end
