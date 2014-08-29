@@ -43,7 +43,7 @@ GEM
       faraday
       faraday_middleware
       yajl-ruby
-    capistrano (2.9.0)
+    capistrano (2.15.5)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -219,7 +219,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   campfiyah
-  capistrano (= 2.9.0)
+  capistrano (= 2.15.5)
   capistrano-ext
   dpl (= 1.5.7)
   flowdock

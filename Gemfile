@@ -13,7 +13,7 @@ gem 'newrelic_rpm'
 # Providers
 gem "dpl",        "1.5.7"
 gem "aws-sdk"
-gem "capistrano", "2.9.0"
+gem "capistrano", "2.15.5"
 gem 'capistrano-ext'
 
 # Notifiers
