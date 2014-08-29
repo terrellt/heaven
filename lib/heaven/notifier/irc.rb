@@ -4,7 +4,7 @@ module Heaven
       def deliver(msg)
         msg << " #{output_link('Output')}"
         Rails.logger.info "irc: #{msg}"
-        uri = URI.parse("#{message_url}/#{URI.escape(chat_room)}".gsub("//", "/"))
+        uri = URI.parse("#{message_url}/#{URI.escape(chat_room)}")
         http = Net::HTTP.new(uri.host, uri.port)
         request = Net::HTTP::Post.new(uri.request_uri)
         request.set_form_data({:payload => request_data(msg).to_json})
@@ -23,7 +23,7 @@ module Heaven
       end
 
       def message_url
-        ENV['HUBOT_IRC_MESSAGE_URL'] || ''
+        (ENV['HUBOT_IRC_MESSAGE_URL'].gsub(/\/$/,'') || ENV['HUBOT_IRC_MESSAGE_URL']) || ''
       end
     end
   end
