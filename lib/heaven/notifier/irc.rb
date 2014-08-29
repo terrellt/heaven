@@ -3,7 +3,7 @@ module Heaven
     class Irc < Notifier::Default
       def deliver(msg)
         msg << " #{output_link('Output')}"
-        Rails.logger.info "irc: #{message}"
+        Rails.logger.info "irc: #{msg}"
         uri = URI.parse("#{message_url}/#{URI.escape(chat_room)}")
         http = Net::HTTP.new(uri.host, uri.port)
         request = Net::HTTP::Post.new(uri.request_uri)
