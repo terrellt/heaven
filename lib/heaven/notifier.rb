@@ -3,6 +3,7 @@ require 'heaven/notifier/campfire'
 require 'heaven/notifier/hipchat'
 require 'heaven/notifier/flowdock'
 require 'heaven/notifier/slack'
+require 'heaven/notifier/irc'
 
 module Heaven
   module Notifier
@@ -13,6 +14,8 @@ module Heaven
         ::Heaven::Notifier::Hipchat.new(payload)
       elsif flowdock?
         ::Heaven::Notifier::Flowdock.new(payload)
+      elsif irc?
+        ::Heaven::Notifier::Irc.new(payload)
       elsif Rails.env.test?
         # noop on posting
       else
@@ -22,6 +25,10 @@ module Heaven
 
     def self.slack?
       !!ENV['SLACK_TOKEN']
+    end
+
+    def self.irc?
+      !!ENV['HUBOT_IRC_MESSAGE_TOKEN']
     end
 
     def self.hipchat?
