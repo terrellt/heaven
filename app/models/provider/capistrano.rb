@@ -7,6 +7,16 @@ module Provider
       @name = "capistrano"
     end
 
+    def move_config
+      if File.exists?(config_folder)
+        FileUtils.cp_r(config_folder, Pathname.new(checkout_directory.to_s).join("config"))
+      end
+    end
+
+    def config_folder
+      Rails.root.join("config/site_configs/#{name.split("/").last}")
+    end
+
     def cap_path
       gem_executable_path("cap")
     end
@@ -32,6 +42,7 @@ module Provider
       unless File.exists?(checkout_directory)
         log "Cloning #{repository_url} into #{checkout_directory}"
         execute_and_log(["git", "clone", clone_url, checkout_directory])
+        move_config
       end
 
       Dir.chdir(checkout_directory) do
