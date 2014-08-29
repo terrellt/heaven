@@ -9,6 +9,7 @@ module Provider
 
     def move_config
       if File.exists?(config_folder)
+        log "Moving configuration from #{config_folder} to #{checkout_directory}."
         FileUtils.cp_r(config_folder, Pathname.new(checkout_directory.to_s).join("config"))
       end
     end
