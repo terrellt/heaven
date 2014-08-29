@@ -8,6 +8,7 @@ gem "unicorn"
 gem "yajl-ruby"
 gem "posix-spawn"
 gem "warden-github-rails"
+gem 'newrelic_rpm'
 
 # Providers
 gem "dpl",        "1.5.7"
