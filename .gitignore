@@ -21,3 +21,4 @@ coverage
 config/config.yml
 config/god.conf
 config/unicorn.rb
+config/site_configs/*/*
