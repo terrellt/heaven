@@ -14,6 +14,7 @@ gem 'newrelic_rpm'
 gem "dpl",        "1.5.7"
 gem "aws-sdk"
 gem "capistrano", "2.9.0"
+gem 'capistrano-ext'
 
 # Notifiers
 gem "hipchat"
