@@ -11,11 +11,13 @@ module Provider
       if File.exists?(config_folder)
         log "Moving configuration from #{config_folder} to #{checkout_directory}."
         FileUtils.cp_r(Dir["#{config_folder.to_s}/**/*"], Pathname.new(checkout_directory.to_s).join("config"), :verbose => true)
+      else
+        log "No config folder #{config_folder}"
       end
     end
 
     def config_folder
-      Rails.root.join("config/site_configs/#{name.split("/").last}")
+      Rails.root.join("config/site_configs/#{name.split("/").last.gsub("-","").downcase}")
     end
 
     def cap_path
