@@ -37,7 +37,7 @@ module Provider
       if File.exists?(executable_path)
         executable_path
       else
-        "bin/#{name}"
+        "#{name}"
       end
     end
 
