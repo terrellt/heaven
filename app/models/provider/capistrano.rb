@@ -45,8 +45,8 @@ module Provider
       unless File.exists?(checkout_directory)
         log "Cloning #{repository_url} into #{checkout_directory}"
         execute_and_log(["git", "clone", clone_url, checkout_directory])
-        move_config
       end
+      move_config
 
       Dir.chdir(checkout_directory) do
         log "Fetching the latest code"
