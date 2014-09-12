@@ -8,8 +8,7 @@ require 'heaven/notifier/irc'
 module Heaven
   module Notifier
     def self.for(payload)
-      Rails.logger.info(payload)
-      if slack?
+      if slack?(payload)
         ::Heaven::Notifier::Slack.new(payload)
       elsif hipchat?
         ::Heaven::Notifier::Hipchat.new(payload)
@@ -24,8 +23,8 @@ module Heaven
       end
     end
 
-    def self.slack?
-      !!ENV['SLACK_TOKEN']
+    def self.slack?(payload={"notify" => {}})
+      !!ENV['SLACK_TOKEN'] && payload["notify"]["adapter"] == "slack"
     end
 
     def self.irc?
