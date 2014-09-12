@@ -24,6 +24,7 @@ module Heaven
     end
 
     def self.slack?(payload={"notify" => {}})
+      Rails.logger.info "Full Payload: #{payload}"
       Rails.logger.info "Payload: #{payload["notify"]["adapter"]}"
       !!ENV['SLACK_TOKEN'] && payload["notify"]["adapter"] == "slack"
     end
