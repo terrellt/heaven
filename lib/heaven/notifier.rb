@@ -8,6 +8,7 @@ require 'heaven/notifier/irc'
 module Heaven
   module Notifier
     def self.for(payload)
+      Rails.logger.info(payload)
       if slack?
         ::Heaven::Notifier::Slack.new(payload)
       elsif hipchat?
