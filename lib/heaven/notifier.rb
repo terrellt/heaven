@@ -4,6 +4,7 @@ require 'heaven/notifier/hipchat'
 require 'heaven/notifier/flowdock'
 require 'heaven/notifier/slack'
 require 'heaven/notifier/irc'
+require 'json'
 
 module Heaven
   module Notifier
@@ -24,8 +25,9 @@ module Heaven
     end
 
     def self.slack?(payload={"deployment" => {"payload" => {"notify" => {}}}})
+      payload = JSON.parse(payload)
       Rails.logger.info "Payload: #{payload["deployment"]["payload"]["notify"]["adapter"]}"
-      !!ENV['SLACK_TOKEN'] && payload["deployment"]["payload"]["notify"]["adapter"]
+      !!ENV['SLACK_TOKEN'] && payload["deployment"]["payload"]["notify"]["adapter"] == "slack"
     end
 
     def self.irc?
