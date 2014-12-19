@@ -42,7 +42,7 @@ module Provider
     end
 
     def number
-      data['id']
+      deployment_data['id']
     end
 
     def name
@@ -54,27 +54,27 @@ module Provider
     end
 
     def sha
-      data['sha'][0..7]
+      deployment_data['sha'][0..7]
     end
 
     def ref
-      data['ref']
+      deployment_data['ref']
     end
 
     def environment
-      data['environment']
+      deployment_data['environment']
     end
 
     def description
-      data['description'] || "Deploying from #{Heaven::VERSION}"
+      deployment_data['description'] || "Deploying from #{Heaven::VERSION}"
     end
 
     def repository_url
-      data['repository']['clone_url']
+      deployment_data['repository']['clone_url']
     end
 
     def default_branch
-      data['repository']['default_branch']
+      deployment_data['repository']['default_branch']
     end
 
     def clone_url
@@ -84,8 +84,12 @@ module Provider
       uri.to_s
     end
 
+    def deployment_payload
+      @deployment_payload ||= data["deployment"] || data
+    end
+
     def custom_payload
-      @custom_payload ||= data['payload']
+      @custom_payload ||= deployment_data['payload']
     end
 
     def custom_payload_name
