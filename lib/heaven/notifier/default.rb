@@ -34,20 +34,24 @@ module Heaven
         %w(pending success).include?(state)
       end
 
+      def deployment_status_data
+        payload["deployment_status"] || payload
+      end
+
       def state
-        payload['state']
+        deployment_status_data["state"]
       end
 
       def number
-        payload['id']
+        deployment_status_data["id"]
       end
 
       def target_url
-        payload['target_url']
+        deployment_status_data['target_url']
       end
 
       def description
-        payload['description']
+        deployment_status_data['description']
       end
 
       def deployment
