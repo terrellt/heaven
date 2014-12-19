@@ -21,6 +21,7 @@ module Heaven
       end
 
       def default_message
+        Rails.logger.info "Calling slack default message"
         message = output_link("##{deployment_number}")
         message << " : #{user_link}"
         case state
@@ -36,6 +37,8 @@ module Heaven
         else
           puts "Unhandled deployment state, #{state}"
         end
+        Rails.logger.info "Message: #{message}"
+        message
       end
 
       def slack_token

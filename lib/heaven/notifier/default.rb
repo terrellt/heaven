@@ -111,6 +111,7 @@ module Heaven
       end
 
       def post!
+        Rails.logger.info "Posting"
         deliver(default_message)
       end
 
