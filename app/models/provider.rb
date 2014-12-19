@@ -24,6 +24,7 @@ module Provider
     data = JSON.parse(payload)["deployment"]
     if data && data['payload']
      if custom_payload = data['payload']['config']
+       Rails.logger.info custom_payload
        return custom_payload['provider']
      end
     end
