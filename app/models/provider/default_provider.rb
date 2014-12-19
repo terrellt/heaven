@@ -84,7 +84,7 @@ module Provider
       uri.to_s
     end
 
-    def deployment_payload
+    def deployment_data
       @deployment_payload ||= data["deployment"] || data
     end
 
