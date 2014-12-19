@@ -21,7 +21,7 @@ module Provider
   end
 
   def self.provider_name_for(payload)
-    data = JSON.parse(payload)
+    data = JSON.parse(payload)["deployment"]
     if data && data['payload']
      if custom_payload = data['payload']['config']
        return custom_payload['provider']
