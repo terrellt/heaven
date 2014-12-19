@@ -5,6 +5,7 @@ module Provider
   end
 
   def self.provider_class_for(payload)
+    Rails.logger.info payload
     case provider_name_for(payload)
     when "heroku"
       Provider::HerokuHeavenProvider
