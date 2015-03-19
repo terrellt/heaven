@@ -88,6 +88,9 @@ module Provider
 
     def deployment_data
       @deployment_payload ||= data["deployment"] || data
+      Rails.logger.info "DEPLOYMENT DATA"
+      Rails.logger.info data
+      @deployment_payload
     end
 
     def custom_payload
