@@ -50,7 +50,7 @@ module Provider
     end
 
     def name_with_owner
-      data['repository']['full_name']
+      repository_data['full_name']
     end
 
     def sha
@@ -70,13 +70,11 @@ module Provider
     end
 
     def repository_url
-      Rails.logger.info "AAAAHH"
-      Rails.logger.info deployment_data
-      deployment_data['repository']['clone_url']
+      repository_data['clone_url']
     end
 
     def default_branch
-      deployment_data['repository']['default_branch']
+      repository_data['default_branch']
     end
 
     def clone_url
@@ -86,11 +84,12 @@ module Provider
       uri.to_s
     end
 
+    def repository_data
+      @repository_data ||= deployment_data["repository"] || data["repository"]
+    end
+
     def deployment_data
       @deployment_payload ||= data["deployment"] || data
-      Rails.logger.info "DEPLOYMENT DATA"
-      Rails.logger.info data
-      @deployment_payload
     end
 
     def custom_payload
