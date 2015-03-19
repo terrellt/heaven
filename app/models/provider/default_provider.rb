@@ -70,6 +70,8 @@ module Provider
     end
 
     def repository_url
+      Rails.logger.info "AAAAHH"
+      Rails.logger.info deployment_data
       deployment_data['repository']['clone_url']
     end
 
